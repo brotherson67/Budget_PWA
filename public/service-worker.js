@@ -1,7 +1,16 @@
 const CACHE_NAME = "static-files-v1";
 const DATA_CACHE_NAME = "data-cache-v1";
 
-const FILES_TO_CACHE = ["/", "/index.html"];
+const FILES_TO_CACHE = [
+  "/",
+  "/index.html",
+  "/js/idb.js",
+  "/js/index.js",
+  "/icons/icon-192x192.png",
+  "/icons/icon-512x512.png",
+  "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
+  "https://cdn.jsdelivr.net/npm/chart.js@2.8.0",
+];
 
 self.addEventListener("install", (evt) => {
   console.log("Service worker installed");
@@ -17,7 +26,6 @@ self.addEventListener("install", (evt) => {
 
 self.addEventListener("activate", (evt) => {
   console.log("service worker activated");
-  // remove old caches
   evt.waitUntil(
     caches.keys().then((keyList) => {
       return Promise.all(
@@ -36,14 +44,21 @@ self.addEventListener("activate", (evt) => {
 self.addEventListener("fetch", (evt) => {
   console.log(evt);
   evt.respondWith(
-    fetch(evt.request).catch(() => {
-      return caches.match(evt.request).then((response) => {
-        if (response) {
-          return response;
-        } else if (evt.request.headers.get("accept").include("text/html")) {
-          return caches.match("/");
-        }
-      });
-    })
+    caches
+      .open(DATA_CACHE_NAME)
+      .then((cache) => {
+        return fetch(evt.request)
+          .then((response) => {
+            if (response.status === 200) {
+              cache.put(evt.request, response.clone());
+            }
+            return response;
+          })
+          .catch(() => {
+            return cache.match(evt.request);
+          });
+      })
+      .catch((err) => console.log(err))
   );
+  return;
 });
