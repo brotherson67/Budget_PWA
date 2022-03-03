@@ -2,6 +2,9 @@
   "name": "Budget-Tracker-PWA",
 
   "short-name": "Budget-PWA",
+  "theme-color": "#ffffff",
+
+  "background-color": "#ffffff",
 
   "icons": [
     {
@@ -46,11 +49,7 @@
     }
   ],
 
-  "theme-color": "#023047",
-
-  "background-color": "#ffb703",
-
-  "start-url": "/",
+  "start-url": "/public",
 
   "display": "standalone"
 }
