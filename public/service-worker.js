@@ -19,4 +19,17 @@ self.addEventListener("activate", (evt) => {
   console.log("service worker activated");
 });
 
-self.addEventListener("fetch", (evt) => {});
+self.addEventListener("fetch", (evt) => {
+  console.log(evt);
+  evt.respondWith(
+    fetch(evt.request).catch(() => {
+      return caches.match(evt.request).then((response) => {
+        if (response) {
+          return response;
+        } else if (evt.request.headers.get("accept").include("text/html")) {
+          return caches.match("/");
+        }
+      });
+    })
+  );
+});
