@@ -3,11 +3,11 @@ const DATA_CACHE_NAME = "data-cache-v1";
 
 const FILES_TO_CACHE = [
   "/",
-  "/public/index.html",
-  "/public/js/idb.js",
-  "/public/js/index.js",
-  "/public/icons/icon-192x192.png",
-  "/public/icons/icon-512x512.png",
+  "/index.html",
+  "/js/idb.js",
+  "/js/index.js",
+  "/icons/icon-192x192.png",
+  "/icons/icon-512x512.png",
   "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
   "https://cdn.jsdelivr.net/npm/chart.js@2.8.0",
 ];
